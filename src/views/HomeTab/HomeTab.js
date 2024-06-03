@@ -21,7 +21,6 @@ import Carousel, { Pagination } from "react-native-x-carousel";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProductFilterCard from "../../components/Card/ProductFilterCard/ProductFilterCard";
 import ActionProductCard from "../../components/Card/ActionProductCard/ActionProductCard";
-import { useSelector } from "react-redux";
 import topProducts from "../../common/recommendedProducts.json";
 import actionProducts from "../../common/onSaleProducts.json";
 import allProducts from "../../common/products.json";
@@ -32,7 +31,6 @@ const HomeTab = () => {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const [deviceType, setDeviceType] = useState(1);
-  const { logStatistics, deviceId } = useSelector((state) => state.stats);
   const [favorites, setFavorites] = useState([]);
   const [recommendations] = useState([
     {

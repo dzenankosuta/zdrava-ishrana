@@ -9,13 +9,11 @@ import {
   MaterialCommunityIcons,
 } from "react-native-vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector } from "react-redux";
 
 const Product = ({ route }) => {
   const { state } = route.params;
   const { colors } = useTheme();
   const { t } = useTranslation();
-  const { logStatistics, deviceId } = useSelector((state) => state.stats);
   const [favorite, setFavorite] = useState(state.isFavorite);
 
   const handleSite = async (url) => {

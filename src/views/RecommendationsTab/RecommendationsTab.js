@@ -18,7 +18,6 @@ import ModalSelector from "react-native-modal-selector";
 import { moderateScale } from "react-native-size-matters";
 import ProductCard from "../../components/Card/ProductCard/ProductCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector } from "react-redux";
 import productsJSON from "../../common/products.json";
 
 const RecommendationsTab = ({ route }) => {
@@ -27,7 +26,6 @@ const RecommendationsTab = ({ route }) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const isFocused = useIsFocused();
-  const { logStatistics, deviceId } = useSelector((state) => state.stats);
   const [products, setProducts] = useState(productsJSON);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [search, setSearch] = useState("");
