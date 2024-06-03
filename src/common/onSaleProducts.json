@@ -1,0 +1,98 @@
+[
+  {
+    "id": 372,
+    "sortNumber": 1,
+    "status": 1,
+    "name": "AZETA akcija",
+    "imageURL": "https://izbegniaditive.rs/products/663c862a36096.jpg",
+    "instagramURL": null,
+    "ingredients": "Kupovinom dva proizvoda ostvaruje\u0161 popust od 20%!\r\n\r\nLosion za za\u0161titu od komaraca, krpelja i drugih insekata je na biljnoj bazi, i svojim mirisom \u0161titi ko\u017eu mali\u0161ana.\r\nArnika krema se koristi posle uboda insekta, posle udarca, za umanjenje otoka i nelagodnosti.\r\n\r\nOba su pogodna za bebe 0m+.\r\n\r\nAkcija traje ceo mesec maj, a mo\u017ee\u0161 je prona\u0107i u:",
+    "storeURL": null,
+    "orderNumber": 0,
+    "is_approved": 1,
+    "sort_number": 1,
+    "language_id": 1,
+    "store_names": [],
+    "store_links": [
+      "https://www.aksa.rs/prodavnice/",
+      "https://www.apotekajankovic.rs/informacije/apoteke/",
+      "https://zdravkoteka.rs/apoteke/",
+      "https://joko.rs/"
+    ],
+    "type_names": ["Deca", "Kozmetika", "Odrasli"],
+    "store_towns": [
+      {
+        "city": "Beograd",
+        "street": "Letoshop, Auto put Beograd-Ni\u0161, oznaka b, lokal 7"
+      },
+      {
+        "city": "Beograd",
+        "street": "Market Zdravlja, Vatroslava Jagi\u0107a 4"
+      },
+      {
+        "city": "Novi Sad",
+        "street": "Zdravologija, Bulevar Kralja Petra I 73"
+      },
+      {
+        "city": "Novi Sad",
+        "street": "Bio Sala\u0161 Idei, Svetojovanska 2"
+      }
+    ]
+  },
+  {
+    "id": 300,
+    "sortNumber": 1,
+    "status": 1,
+    "name": "CENTIFOLIA - 10% POPUSTA",
+    "imageURL": "https://izbegniaditive.rs/products/657b019e07fde.png",
+    "instagramURL": null,
+    "ingredients": "Za svaku prvu porud\u017ebinu sa sajta www.centifolia.rs mo\u017eete ostvariti popust od 10%.",
+    "storeURL": "https://centifolia.rs/?gclid=Cj0KCQiA7OqrBhD9ARIsAK3UXh1mZZ0VGtaSkVCZrbSE1OWaA8WR3bHmz3uk5K7SWrLyDlYK8Ipu2yYaAkwmEALw_wcB",
+    "orderNumber": 0,
+    "is_approved": 1,
+    "sort_number": 1,
+    "language_id": 1,
+    "store_names": [],
+    "store_links": [],
+    "type_names": ["Kozmetika", "Odrasli"],
+    "store_towns": []
+  },
+  {
+    "id": 407,
+    "sortNumber": 1,
+    "status": 1,
+    "name": "Zao MakeUp akcija",
+    "imageURL": "https://izbegniaditive.rs/products/6654483e125c1.png",
+    "instagramURL": "https://www.instagram.com/zaomakeup.rs/",
+    "ingredients": "Prijavi se na newsletter i osvoji 10% popusta na prvu kupovinu. Sve informacije su na sajtu Zao MakeUp.",
+    "storeURL": "https://zaomakeup.rs/",
+    "orderNumber": 0,
+    "is_approved": 1,
+    "sort_number": 1,
+    "language_id": 1,
+    "store_names": [],
+    "store_links": [],
+    "type_names": ["Kozmetika", "Odrasli"],
+    "store_towns": []
+  },
+  {
+    "id": 334,
+    "sortNumber": 1,
+    "status": 1,
+    "name": "Plus Pharmaceuticals AKCIJA 2+1",
+    "imageURL": "https://izbegniaditive.rs/products/65ef02fab9666.jpg",
+    "instagramURL": "https://www.instagram.com/pluspharmaceuticals/",
+    "ingredients": "Uz kupljena bilo koja 2 proizvoda, dobijate na poklon 1 po va\u0161em izboru!\r\n\r\nAkcija se odnosi na kupovinu proizvoda u Plus Pharmaceuticals radnji u Kragujevcu, na adresi Janka Veselinovi\u0107a 2.",
+    "storeURL": "https://plus-pharmaceuticals.com/",
+    "orderNumber": 0,
+    "is_approved": 1,
+    "sort_number": 1,
+    "language_id": 1,
+    "store_names": [],
+    "store_links": [],
+    "type_names": ["Deca", "Kozmetika", "Odrasli", "Suplementacija"],
+    "store_towns": [
+      { "city": "Kragujevac", "street": "Janka Veselinovi\u0107a 2" }
+    ]
+  }
+]
