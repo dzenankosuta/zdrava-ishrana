@@ -1,8 +1,8 @@
 import axios from "axios";
-import { store } from "../../../store";
-import { authSlice } from "../../store/authSlice";
+import { store } from "../../store";
+import { authSlice } from "../store/authSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { restApiUrl } from "../../../config/api";
+import { restApiUrl } from "../../config/api";
 
 const setToken = async (token) => {
   await AsyncStorage.setItem("auth_token", token);
