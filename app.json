@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "Zdrava Ishrana",
+    "slug": "zdrava-ishrana",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "com.zdravlje.app",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#2d6255"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "userInterfaceStyle": "light",
+    "ios": {
+      "config": {
+        "usesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.zdravlje.app",
+      "infoPlist": {
+        "config": {
+          "usesNonExemptEncryption": false
+        },
+        "CFBundleAllowMixedLocalizations": true,
+        "UIRequiresFullScreen": true,
+        "UISupportedInterfaceOrientations~iphone": [
+          "UIInterfaceOrientationPortrait"
+        ],
+        "UISupportedInterfaceOrientations~ipad": [
+          "UIInterfaceOrientationPortrait",
+          "UIInterfaceOrientationPortraitUpsideDown",
+          "UIInterfaceOrientationLandscapeLeft",
+          "UIInterfaceOrientationLandscapeRight"
+        ]
+      },
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.zdravlje.app",
+      "userInterfaceStyle": "light",
+      "permissions": [],
+      "versionCode": 1
+    },
+    "description": "Zdrava Ishrana App"
+  }
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="49.727" height="50.735" viewBox="0 0 49.727 50.735">
+  <g id="Group_47" data-name="Group 47" transform="translate(-159 -589.633)">
+    <g id="cosmetics" transform="translate(145.667 579.633)">
+      <path id="Path_36" data-name="Path 36" d="M20,76.667v4.227a4.228,4.228,0,0,0,4.228,4.228h8.456a4.227,4.227,0,0,0,4.228-4.228V76.667Z" transform="translate(-2.439 -24.388)" fill="#2d6255"/>
+      <path id="Path_37" data-name="Path 37" d="M13.333,10l4.228,38.051H34.473L38.7,10ZM29.188,22.684H22.846a3.171,3.171,0,0,1,0-6.342h6.342a3.171,3.171,0,1,1,0,6.342Z" fill="#2d6255"/>
+    </g>
+    <g id="cosmetics-bottle-3" transform="translate(154.254 579.633)">
+      <path id="Path_41" data-name="Path 41" d="M50.245,18.456H46.017V14.227h2.114a2.116,2.116,0,0,1,2.114,2.114h4.228A6.343,6.343,0,0,0,48.131,10h-14.8v4.228h8.456v4.228H37.561v4.227H33.333v6.344h14.8V54.395l-14.8,0v6.342h21.14V22.684H50.245Z" fill="#2d6255"/>
+      <path id="Path_42" data-name="Path 42" d="M33.333,46.672H43.9V63.581H33.333Z" transform="translate(0 -13.415)" fill="#2d6255"/>
+    </g>
+  </g>
+</svg>
