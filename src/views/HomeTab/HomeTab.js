@@ -1,4 +1,4 @@
-import { View, Text, Platform, ScrollView, Image, Linking } from "react-native";
+import { View, Text, Platform, ScrollView, Image } from "react-native";
 import * as Device from "expo-device";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,19 +18,13 @@ import AdultsIcon from "../../../assets/Icons/adults.svg";
 import MedicineIcon from "../../../assets/Icons/medicine.svg";
 import RecommendationCard from "../../components/Card/RecommendationCard/RecommendationCard";
 import Carousel, { Pagination } from "react-native-x-carousel";
-import { webUrl } from "../../../config/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProductFilterCard from "../../components/Card/ProductFilterCard/ProductFilterCard";
 import ActionProductCard from "../../components/Card/ActionProductCard/ActionProductCard";
-import {
-  getOnSaleProducts,
-  getProducts,
-  getRecommendProducts,
-} from "../../services/products";
-import { useQuery } from "react-query";
-import ActivityScreen from "../ActivityScreen/ActivityScreen";
 import { useSelector } from "react-redux";
-import { addStatistic } from "../../services/stats";
+import topProducts from "../../common/recommendedProducts.json";
+import actionProducts from "../../common/onSaleProducts.json";
+import allProducts from "../../common/products.json";
 
 const HomeTab = () => {
   const { colors } = useTheme();
@@ -40,48 +34,7 @@ const HomeTab = () => {
   const [deviceType, setDeviceType] = useState(1);
   const { logStatistics, deviceId } = useSelector((state) => state.stats);
   const [favorites, setFavorites] = useState([]);
-
-  const { data: allProducts, isLoading: gettingAllProducts } = useQuery({
-    queryKey: "allProducts",
-    queryFn: () => getProducts(),
-    cacheTime: 1000 * 60 * 300,
-    onError: (error) => {
-      throw error;
-    },
-  });
-
-  const { data: topProducts, isLoading: gettingRecommendProducts } = useQuery({
-    queryKey: "recommendProducts",
-    queryFn: () => getRecommendProducts(),
-    cacheTime: 1000 * 60 * 300,
-    onError: (error) => {
-      throw error;
-    },
-  });
-
-  const { data: actionProducts, isLoading: gettingAcionProducts } = useQuery({
-    queryKey: "actionProducts",
-    queryFn: () => getOnSaleProducts(),
-    cacheTime: 1000 * 60 * 300,
-    onError: (error) => {
-      throw error;
-    },
-  });
-
-  const handleSite = async (url) => {
-    // const supported = await Linking.canOpenURL(url);
-
-    // if (supported) {
-    //   await Linking.openURL(url);
-    // } else {
-    //   Alert.alert(`${t("error_opening_site")} ${url}`);
-    // }
-    Linking.openURL(url).catch((err) =>
-      console.error("An error occurred", err)
-    );
-  };
-
-  const [recommendations, setRecommendations] = useState([
+  const [recommendations] = useState([
     {
       label: t("children"),
       key: t("children"),
@@ -160,16 +113,6 @@ const HomeTab = () => {
         });
       },
     },
-    // {
-    //   label: t("favorite"),
-    //   key: t("favorite"),
-    //   icon: <MaterialIcons size={60} name="favorite" color={colors.primary} />,
-    //   onPress: () => {
-    //     navigation.navigate("Home Recommendations", {
-    //       screen: "Home Recommendations",
-    //     });
-    //   },
-    // },
   ]);
   const renderItem = (data) => {
     const dataImage = allProducts?.find(
@@ -184,25 +127,16 @@ const HomeTab = () => {
         ]}
       >
         <RecommendationCard
-          imageUrl={webUrl.prod + data?.imageURL}
+          imageUrl={data?.imageURL}
           title={data?.name}
           text={data?.description}
           onPress={() => {
-            if (logStatistics) {
-              addStatistic({
-                product_id: data?.id,
-                unique_id: deviceId,
-                component: 1,
-                extra: "",
-                user_id: "null",
-              });
-            }
             navigation.navigate("Home Product", {
               screen: "Home Product",
               state: {
                 product: data,
                 productId: data?.id,
-                productImage: webUrl.prod + dataImage,
+                productImage: data?.imageURL,
                 productTitle: data?.orig_name,
                 productDescription: data?.orig_description,
                 productPopulation: data?.type_names,
@@ -265,20 +199,11 @@ const HomeTab = () => {
           </Text>
         </View>
         <>
-          {(gettingRecommendProducts ||
-            gettingAcionProducts ||
-            gettingAllProducts) && <ActivityScreen message={t("loading")} />}
           <View
             style={[
               styles.mainContainer,
               {
                 backgroundColor: colors.background,
-                display:
-                  gettingRecommendProducts ||
-                  gettingAcionProducts ||
-                  gettingAllProducts
-                    ? "none"
-                    : "flex",
               },
             ]}
           >
@@ -326,17 +251,15 @@ const HomeTab = () => {
               </ScrollView>
             </View>
             <View style={[styles.actionRecommendationContainer]}>
-              {!gettingRecommendProducts && !gettingAcionProducts && (
-                <Text
-                  style={[
-                    styles.actionRecommendationTitle,
-                    { color: colors.text },
-                  ]}
-                >
-                  <Feather size={26} name="percent" color={colors.primary} />{" "}
-                  {t("products_on_sale")}
-                </Text>
-              )}
+              <Text
+                style={[
+                  styles.actionRecommendationTitle,
+                  { color: colors.text },
+                ]}
+              >
+                <Feather size={26} name="percent" color={colors.primary} />{" "}
+                {t("products_on_sale")}
+              </Text>
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
@@ -346,63 +269,53 @@ const HomeTab = () => {
                     flexDirection: "row",
                   }}
                 >
-                  {actionProducts.length > 0 &&
-                    actionProducts.map((product, index) => {
-                      const isFavorite = favorites.some(
-                        (favProduct) => favProduct?.id === product?.id
-                      );
-                      return (
-                        <ActionProductCard
-                          key={index}
-                          imageUrl={webUrl.prod + product.imageURL}
-                          title={product.name}
-                          favoriteIcon={
-                            isFavorite ? (
-                              <MaterialIcons
-                                size={25}
-                                name="favorite"
-                                color={colors.primary}
-                              />
-                            ) : (
-                              <MaterialIcons
-                                size={25}
-                                name="favorite-outline"
-                                color={colors.primary}
-                              />
-                            )
-                          }
-                          onPress={() => {
-                            if (logStatistics) {
-                              addStatistic({
-                                product_id: product.id,
-                                unique_id: deviceId,
-                                component: 2,
-                                extra: "",
-                                user_id: "null",
-                              });
-                            }
-                            navigation.navigate("Home Product", {
-                              screen: "Home Product",
-                              state: {
-                                product: product,
-                                productId: product.id,
-                                productImage: webUrl.prod + product.imageURL,
-                                productTitle: product.name,
-                                productDescription: product.description,
-                                productPopulation: product.type_names,
-                                productIngredients: product.ingredients,
-                                productLocations: product.store_towns,
-                                productStores: product.store_links,
-                                productInstagramURL: product.instagramURL,
-                                productStoreURL: product.storeURL,
-                                isFavorite: isFavorite,
-                                favorites: favorites,
-                              },
-                            });
-                          }}
-                        />
-                      );
-                    })}
+                  {actionProducts.map((product, index) => {
+                    const isFavorite = favorites.some(
+                      (favProduct) => favProduct?.id === product?.id
+                    );
+                    return (
+                      <ActionProductCard
+                        key={index}
+                        imageUrl={product.imageURL}
+                        title={product.name}
+                        favoriteIcon={
+                          isFavorite ? (
+                            <MaterialIcons
+                              size={25}
+                              name="favorite"
+                              color={colors.primary}
+                            />
+                          ) : (
+                            <MaterialIcons
+                              size={25}
+                              name="favorite-outline"
+                              color={colors.primary}
+                            />
+                          )
+                        }
+                        onPress={() => {
+                          navigation.navigate("Home Product", {
+                            screen: "Home Product",
+                            state: {
+                              product: product,
+                              productId: product.id,
+                              productImage: product.imageURL,
+                              productTitle: product.name,
+                              productDescription: product.description,
+                              productPopulation: product.type_names,
+                              productIngredients: product.ingredients,
+                              productLocations: product.store_towns,
+                              productStores: product.store_links,
+                              productInstagramURL: product.instagramURL,
+                              productStoreURL: product.storeURL,
+                              isFavorite: isFavorite,
+                              favorites: favorites,
+                            },
+                          });
+                        }}
+                      />
+                    );
+                  })}
                 </View>
               </ScrollView>
             </View>

@@ -10,7 +10,6 @@ import {
 } from "react-native-vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
-import { addStatistic } from "../../services/stats";
 
 const Product = ({ route }) => {
   const { state } = route.params;
@@ -69,15 +68,6 @@ const Product = ({ route }) => {
               if (favorite) {
                 removeFromFavorites(state.productId);
               } else {
-                if (logStatistics) {
-                  addStatistic({
-                    product_id: state.productId,
-                    unique_id: deviceId,
-                    component: 3,
-                    extra: "",
-                    user_id: "null",
-                  });
-                }
                 addToFavorites(state.product);
               }
             }}

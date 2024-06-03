@@ -2,7 +2,6 @@ import {
   View,
   Text,
   TextInput,
-  Image,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
@@ -18,13 +17,9 @@ import { MaterialIcons, AntDesign, Entypo } from "react-native-vector-icons";
 import ModalSelector from "react-native-modal-selector";
 import { moderateScale } from "react-native-size-matters";
 import ProductCard from "../../components/Card/ProductCard/ProductCard";
-import { useQuery } from "react-query";
-import { getProducts } from "../../services/products";
-import { webUrl } from "../../../config/api";
-import ActivityScreen from "../ActivityScreen/ActivityScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
-import { addStatistic } from "../../services/stats";
+import productsJSON from "../../common/products.json";
 
 const RecommendationsTab = ({ route }) => {
   const scrollViewRef = useRef(null);
@@ -33,7 +28,7 @@ const RecommendationsTab = ({ route }) => {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const { logStatistics, deviceId } = useSelector((state) => state.stats);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(productsJSON);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [favorites, setFavorites] = useState([]);
@@ -97,30 +92,6 @@ const RecommendationsTab = ({ route }) => {
     { label: t("Z-A"), key: "Z-A" },
   ];
   const [selectedSort, setSelectedSort] = useState(sorts[0].key);
-
-  const { data, isLoading: gettingProducts } = useQuery({
-    queryKey: "allProducts",
-    queryFn: () => getProducts(),
-    cacheTime: 1000 * 60 * 300,
-    onSuccess: () => {
-      setProducts(shuffleArray(data));
-      if (!!route?.params?.state?.filterBy) {
-        setSelectedFilter(route?.params?.state?.filterBy);
-        setFilteredProducts(
-          data?.filter((product) =>
-            product?.type_names.includes(t(route?.params?.state?.filterBy))
-          )
-        );
-      } else {
-        setFilteredProducts(shuffleArray(data));
-      }
-    },
-    onError: (error) => {
-      setProducts([]);
-      setFilteredProducts([]);
-      // throw error;
-    },
-  });
 
   function sortByNameAZ(array) {
     return array.sort((a, b) => {
@@ -269,17 +240,22 @@ const RecommendationsTab = ({ route }) => {
   useEffect(() => {
     scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
   }, [selectedFilter, search, filterChanged, page]);
+  useEffect(() => {
+    setProducts(shuffleArray(products));
+    if (!!route?.params?.state?.filterBy) {
+      setSelectedFilter(route?.params?.state?.filterBy);
+      setFilteredProducts(
+        products?.filter((product) =>
+          product?.type_names.includes(t(route?.params?.state?.filterBy))
+        )
+      );
+    } else {
+      setFilteredProducts(shuffleArray(products));
+    }
+  }, []);
   return (
     <>
-      {gettingProducts && <ActivityScreen message={t("loading_products")} />}
-      <View
-        style={[
-          styles.container,
-          {
-            display: gettingProducts ? "none" : "flex",
-          },
-        ]}
-      >
+      <View style={[styles.container]}>
         <View style={[styles.header, { backgroundColor: colors.primary }]}>
           <Text></Text>
           <Text
@@ -484,7 +460,7 @@ const RecommendationsTab = ({ route }) => {
                   return (
                     <ProductCard
                       key={index}
-                      imageUrl={webUrl.prod + product?.imageURL}
+                      imageUrl={product?.imageURL}
                       title={product?.name}
                       favoriteIcon={
                         isFavorite ? (
@@ -502,21 +478,12 @@ const RecommendationsTab = ({ route }) => {
                         )
                       }
                       onPress={() => {
-                        if (logStatistics) {
-                          addStatistic({
-                            product_id: product?.id,
-                            unique_id: deviceId,
-                            component: 4,
-                            extra: "",
-                            user_id: "null",
-                          });
-                        }
                         navigation.navigate("Product", {
                           screen: "Product",
                           state: {
                             product: product,
                             productId: product?.id,
-                            productImage: webUrl.prod + product?.imageURL,
+                            productImage: product?.imageURL,
                             productTitle: product?.name,
                             productDescription: product?.description,
                             productPopulation: product?.type_names,
@@ -534,15 +501,6 @@ const RecommendationsTab = ({ route }) => {
                         if (isFavorite) {
                           removeFromFavorites(product?.id);
                         } else {
-                          if (logStatistics) {
-                            addStatistic({
-                              product_id: product?.id,
-                              unique_id: deviceId,
-                              component: 3,
-                              extra: "",
-                              user_id: "null",
-                            });
-                          }
                           addToFavorites(product);
                         }
                       }}
