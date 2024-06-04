@@ -20,7 +20,7 @@ const Auth = () => {
     >
       <View style={[styles.container]}>
         <Image
-          source={require("../../../assets/Images/back_auth.png")}
+          source={require("../../../assets/Images/smoothie.jpg")}
           style={styles.background}
         />
         <Text style={[styles.logoText, { color: colors.primary }]}>

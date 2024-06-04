@@ -31,11 +31,13 @@ const AuthStyles = StyleSheet.create({
   background: {
     resizeMode: "cover",
     width: "100%",
+    height: 300,
+    borderRadius: moderateScale(30, 0.2),
   },
   logoText: {
     fontSize: moderateScale(35, 0.2),
     position: "absolute",
-    top: moderateScale(140, 0.2),
+    top: moderateScale(200, 0.2),
     right: moderateScale(20, 0.2),
     fontFamily: "PopinsRegular",
   },
