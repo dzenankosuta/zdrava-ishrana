@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Platform, Text, View } from "react-native";
-import { Ionicons, Octicons, Entypo } from "react-native-vector-icons";
+import { FontAwesome5, Octicons, Entypo } from "react-native-vector-icons";
 import { useTheme } from "@react-navigation/native";
 import { moderateScale } from "react-native-size-matters";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -9,9 +9,8 @@ import { useTranslation } from "react-i18next";
 import styles from "./TabsStyles";
 import HomeTab from "../../views/HomeTab/HomeTab";
 import RecommendationsTab from "../../views/RecommendationsTab/RecommendationsTab";
-import StoriesTab from "../../views/StoriesTab/StoriesTab";
-import Story from "../../views/Story/Story";
 import Product from "../../views/Product/Product";
+import ProfileTab from "../../views/ProfileTab/ProfileTab";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -86,20 +85,18 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="stories"
-        component={StoriesNavigation}
+        name="profile"
+        component={ProfileNavigation}
         options={{
           tabBarIcon: ({ color }) => (
             <View style={[styles.tabContainer]}>
               <Text style={[styles.iconStyle]}>
-                <Ionicons size={30} name="book-outline" color={color} />
+                <FontAwesome5 size={24} name="user-alt" color={color} />
               </Text>
-              <Text style={[styles.tabName, { color }]}>
-                {t("health_and_more_stories")}
-              </Text>
+              <Text style={[styles.tabName, { color }]}>{t("profile")}</Text>
             </View>
           ),
-          tabBarLabel: ({ color, focused }) =>
+          tabBarLabel: ({ focused }) =>
             focused && (
               <View
                 style={[
@@ -252,7 +249,7 @@ const RecommendationsNavigation = () => {
     </Stack.Navigator>
   );
 };
-const StoriesNavigation = () => {
+const ProfileNavigation = () => {
   const { colors } = useTheme();
   const { t } = useTranslation();
   return (
@@ -270,25 +267,13 @@ const StoriesNavigation = () => {
         // headerRight: RightHeaderComponent,
         headerTintColor: colors.background2,
       }}
-      initialRouteName="stories"
+      initialRouteName="profile"
     >
       <Stack.Screen
-        name="stories"
-        component={StoriesTab}
+        name="profile"
+        component={ProfileTab}
         options={{
-          headerTitle: t("health_and_more_stories_long"),
-          headerTitleAlign: "center",
-          headerTitleStyle: {
-            color: colors.background2,
-            fontFamily: "PopinsRegular",
-          },
-        }}
-      />
-      <Stack.Screen
-        name="Story"
-        component={Story}
-        options={{
-          headerTitle: t("health_and_more_stories_long"),
+          headerTitle: t("profile"),
           headerTitleAlign: "center",
           headerTitleStyle: {
             color: colors.background2,
