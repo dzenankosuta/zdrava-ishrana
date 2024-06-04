@@ -24,5 +24,11 @@
   "products_on_sale": "Proizvodi na akciji",
   "A-Z": "A-Z",
   "Z-A": "Z-A",
-  "by_default": "Podrazumevano"
+  "by_default": "Podrazumevano",
+  "logout": "Izloguj se",
+  "delete_profile": "Izbriši profil",
+  "delete_profile_title": "Brisanje profila",
+  "delete_profile_info": "Da li ste sigurni da \u0107ete izbrisati profil?",
+  "yes": "Da",
+  "no": "Ne"
 }
