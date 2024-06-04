@@ -8,7 +8,7 @@ const AuthStyles = StyleSheet.create({
     alignItems: "center",
   },
   secondContainer: {
-    marginTop: moderateScale(50, 0.2),
+    marginTop: moderateScale(20, 0.2),
     width: "100%",
     minHeight: moderateScale(400, 0.2),
   },
