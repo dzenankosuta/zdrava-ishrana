@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,29 +6,20 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
-  Image,
-  Linking,
-  Alert,
   Platform,
   KeyboardAvoidingView,
 } from "react-native";
 import IoniconsIcon from "react-native-vector-icons/Ionicons";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useNavigation, useTheme } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
 import { useMutation } from "react-query";
 import { CustomButton } from "../../components/CustomButton/CustomButton";
 import styles from "./LoginStyles";
-import { login } from "../../services/oldServices/user";
+import { login } from "../../services/user";
 import ActivityScreen from "../../views/ActivityScreen/ActivityScreen";
 import { useTranslation } from "react-i18next";
 import { moderateScale } from "react-native-size-matters";
-import * as WebBrowser from "expo-web-browser";
-import * as Google from "expo-auth-session/providers/google";
-import * as Facebook from "expo-auth-session/providers/facebook";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-WebBrowser.maybeCompleteAuthSession();
 
 const Login = ({ lang, setAuth }) => {
   const { colors } = useTheme();
@@ -37,83 +28,6 @@ const Login = ({ lang, setAuth }) => {
   const [showPassword, setShowPassword] = useState(false);
   // const [forgotPassword, setForgotPassword] = useState(false);
   const incorrectStyles = message !== "" ? colors.notification : colors.text;
-
-  const [userInfo, setUserInfo] = useState(null);
-  const [user, setUser] = useState(null);
-
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId:
-      "554236120911-lnc63f8d0st6806c73rnhrm8p55ss0f7.apps.googleusercontent.com",
-    iosClientId:
-      "554236120911-2kov0ng0vuiurothkgqjhgkrubi14e9o.apps.googleusercontent.com",
-    webClientId:
-      "554236120911-gb6cocas2eumga4rcdve68ovfaukh86n.apps.googleusercontent.com",
-    expoClientId:
-      "554236120911-gb6cocas2eumga4rcdve68ovfaukh86n.apps.googleusercontent.com",
-  });
-
-  const [requestFacebook, responseFacebook, promptAsyncFacebook] =
-    Facebook.useAuthRequest({
-      clientId: "3417479531844510",
-    });
-
-  useEffect(() => {
-    handleSignInWithGoogle();
-  }, [response]);
-
-  useEffect(() => {
-    if (
-      responseFacebook &&
-      responseFacebook.type === "success" &&
-      responseFacebook.authentication
-    ) {
-      (async () => {
-        const userInfoResponse = await fetch(
-          `https://graph.facebook.com/me?access_token=${encodeURIComponent(
-            responseFacebook.authentication.accessToken
-          )}&fields=id,name,email,picture.type(large)`
-        );
-        const userInfo = await userInfoResponse.json();
-        setUser(userInfo);
-      })();
-    }
-  }, [responseFacebook]);
-
-  async function handlePressAsync() {
-    const result = await promptAsyncFacebook();
-    if (result.type !== "success") {
-      Alert.alert("Uh oh!", "Something went wrong!");
-      return;
-    }
-  }
-
-  async function handleSignInWithGoogle() {
-    // const user = await AsyncStorage.getItem('@user');
-    // if (!user) {
-    if (response?.type === "success") {
-      await getUserInfo(response.authentication.accessToken);
-    }
-    // } else {
-    //   setUserInfo(JSON.parse(user));
-    // }
-  }
-
-  const getUserInfo = async (token) => {
-    if (!token) return;
-    try {
-      const response = await fetch(
-        `https://www.googleapis.com/userinfo/v2/me`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const user = await response.json();
-      await AsyncStorage.setItem("@user", JSON.stringify(user));
-      setUserInfo(user);
-    } catch (error) {
-      // console.log(error);
-    }
-  };
 
   const { mutate: doAuth, isLoading } = useMutation((values) => login(values), {
     onSuccess: (res) => {
@@ -133,16 +47,6 @@ const Login = ({ lang, setAuth }) => {
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
-  };
-
-  const handleSite = async (url) => {
-    const supported = await Linking.canOpenURL(url);
-
-    if (supported) {
-      await Linking.openURL(url);
-    } else {
-      Alert(`${t("error_opening_site")} ${url}`);
-    }
   };
 
   return (
@@ -240,13 +144,13 @@ const Login = ({ lang, setAuth }) => {
                         {showPassword ? (
                           <IoniconsIcon
                             size={22}
-                            name="md-eye-off"
+                            name="eye-off"
                             color={colors.placeholder}
                           />
                         ) : (
                           <IoniconsIcon
                             size={22}
-                            name="md-eye"
+                            name="eye"
                             color={colors.placeholder}
                           />
                         )}
@@ -256,54 +160,9 @@ const Login = ({ lang, setAuth }) => {
                   <Text style={[styles.errors, { color: colors.darkBorder }]}>
                     {errors.password && touched.password && errors.password}
                   </Text>
-                  <TouchableOpacity
-                    style={[styles.forgotPassword]}
-                    activeOpacity={0.8}
-                    underlayColor={"transparent"}
-                    onPress={() => setAuth("forgotPassword")}
-                  >
-                    <Text
-                      style={{
-                        color: colors.darkBorder,
-                        fontSize: moderateScale(12, 0.2),
-                      }}
-                    >
-                      {t("forgot_password")}
-                    </Text>
-                  </TouchableOpacity>
                   <View style={styles.buttonWrapper}>
-                    <CustomButton text={t("login_in")} onPress={handleSubmit} />
+                    <CustomButton text={t("login")} onPress={handleSubmit} />
                   </View>
-                  <Text style={[styles.or, { color: colors.darkBorder }]}>
-                    {t("or")}
-                  </Text>
-                  <View style={[styles.web]}>
-                    <TouchableOpacity
-                      style={[styles.page]}
-                      activeOpacity={0.8}
-                      underlayColor={"transparent"}
-                      onPress={() => promptAsync()}
-                      // disabled={}
-                    >
-                      {/* <Image
-                        style={[styles.img]}
-                        source={require('../../../assets/Icons/google_logo.png')}
-                      /> */}
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[styles.page]}
-                      activeOpacity={0.8}
-                      underlayColor={"transparent"}
-                      onPress={handlePressAsync}
-                    >
-                      {/* <Image
-                        style={[styles.img]}
-                        source={require('../../../assets/Icons/facebook_logo.png')}
-                      /> */}
-                    </TouchableOpacity>
-                  </View>
-                  {/* <Text>{JSON.stringify(userInfo, null, 2)}</Text> */}
-                  {/* <Text>{JSON.stringify(user, null, 2)}</Text> */}
                 </SafeAreaView>
               );
             }}

@@ -12,6 +12,7 @@ import i18n from "./i18n";
 import Tabs from "./src/components/Tabs/Tabs";
 import useAppFonts from "./src/hooks/useAppFonts";
 import "react-native-get-random-values";
+import Auth from "./src/views/Auth/Auth";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const NavigationComponent = () => {
   const { areFontsLoaded } = useAppFonts();
   const { selectedTheme } = useSelector((state) => state.theme);
   const [appIsReady, setAppIsReady] = useState(false);
+  const { id } = useSelector((state) => state.auth);
 
   (async () => {
     SplashScreen.preventAutoHideAsync();
@@ -66,6 +68,13 @@ const NavigationComponent = () => {
     );
   }
 
+  if (!id) {
+    return (
+      <NavigationContainer theme={selectedTheme}>
+        <Auth />
+      </NavigationContainer>
+    );
+  }
   return (
     <NavigationContainer theme={selectedTheme}>
       <Tabs />

@@ -30,8 +30,7 @@ const LoginStyles = StyleSheet.create({
     fontFamily: "PopinsItalic",
   },
   buttonWrapper: {
-    width: "100%",
-    marginLeft: "20%",
+    width: "80%",
     marginTop: moderateScale(50, 0.2),
   },
   forgotPassword: {

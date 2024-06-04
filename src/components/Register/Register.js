@@ -6,9 +6,6 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
-  Image,
-  Linking,
-  Alert,
   Platform,
   KeyboardAvoidingView,
 } from "react-native";
@@ -19,18 +16,15 @@ import { useTheme } from "@react-navigation/native";
 import { useMutation } from "react-query";
 import { CustomButton } from "../../components/CustomButton/CustomButton";
 import styles from "./RegisterStyles";
-import { signup } from "../../services/oldServices/user";
+import { signup } from "../../services/user";
 import ActivityScreen from "../../views/ActivityScreen/ActivityScreen";
 import { useTranslation } from "react-i18next";
 import { moderateScale } from "react-native-size-matters";
-import { CheckBox } from "react-native-elements";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Register = ({ lang }) => {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const [message, setMessage] = useState("");
-  const [messageTerms, setMessageTerms] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -38,27 +32,6 @@ const Register = ({ lang }) => {
     message !== "" && message !== t("successful_registration")
       ? colors.notification
       : colors.text;
-
-  const [number1, setNumber1] = useState(Math.floor(Math.random() * 10) + 1);
-  const [number2, setNumber2] = useState(Math.floor(Math.random() * 10) + 1);
-  const [userAnswer, setUserAnswer] = useState("");
-  const [captchaResult, setCaptchaResult] = useState("");
-
-  const generateCaptcha = () => {
-    setNumber1(Math.floor(Math.random() * 10) + 1);
-    setNumber2(Math.floor(Math.random() * 10) + 1);
-    setUserAnswer("");
-    setCaptchaResult("");
-  };
-
-  const checkAnswer = () => {
-    const expectedAnswer = number1 + number2;
-    if (parseInt(userAnswer) === expectedAnswer) {
-      setCaptchaResult(t("correct"));
-    } else {
-      setCaptchaResult(t("incorrect"));
-    }
-  };
 
   const { mutate: doSignup, isLoading } = useMutation(
     (values) => signup(values),
@@ -81,16 +54,6 @@ const Register = ({ lang }) => {
       },
     }
   );
-
-  const handleSite = async (url) => {
-    const supported = await Linking.canOpenURL(url);
-
-    if (supported) {
-      await Linking.openURL(url);
-    } else {
-      Alert(`${t("error_opening_site")} ${url}`);
-    }
-  };
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -139,24 +102,15 @@ const Register = ({ lang }) => {
             validationSchema={Yup.object().shape({
               email: Yup.string()
                 .required(t("required_email"))
-                .email(t("wrong_format_email"))
-                .max(250, t("max_email")),
+                .email(t("wrong_format_email")),
               password: Yup.string()
                 .required(t("required_password"))
-                .min(8, t("min_password"))
-                .max(20, t("max_password"))
-                .matches(
-                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).+$/,
-                  t("special_requirement_password")
-                ),
+                .min(6, t("min_password"))
+                .max(20, t("max_password")),
               confirm_password: Yup.string()
                 .required(t("required_confirm_password"))
                 .min(8, t("min_confirm_password"))
                 .max(20, t("max_confirm_password"))
-                .matches(
-                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).+$/,
-                  t("special_requirement_confirm_password")
-                )
                 .when("password", (password, field) =>
                   password
                     ? field
@@ -297,13 +251,13 @@ const Register = ({ lang }) => {
                         {showPassword ? (
                           <IoniconsIcon
                             size={22}
-                            name="md-eye-off"
+                            name="eye-off"
                             color={colors.placeholder}
                           />
                         ) : (
                           <IoniconsIcon
                             size={22}
-                            name="md-eye"
+                            name="eye"
                             color={colors.placeholder}
                           />
                         )}
@@ -350,13 +304,13 @@ const Register = ({ lang }) => {
                         {showConfirmPassword ? (
                           <IoniconsIcon
                             size={22}
-                            name="md-eye-off"
+                            name="eye-off"
                             color={colors.placeholder}
                           />
                         ) : (
                           <IoniconsIcon
                             size={22}
-                            name="md-eye"
+                            name="eye"
                             color={colors.placeholder}
                           />
                         )}
@@ -368,152 +322,14 @@ const Register = ({ lang }) => {
                       touched.confirm_password &&
                       errors.confirm_password}
                   </Text>
-                  <View style={[styles.checkWrapper]}>
-                    <CheckBox
-                      checked={isChecked}
-                      onPress={handleCheckBox}
-                      containerStyle={{
-                        backgroundColor: "transparent",
-                        borderWidth: 0,
-                        width: 30,
-                        height: 45,
-                      }}
-                      checkedColor={colors.primary}
-                      uncheckedColor={colors.darkBorder}
-                    />
-                    <Text style={{ color: colors.text }}>
-                      {t("accept_terms")}
-                      {"  "}
-                    </Text>
-                    <TouchableOpacity
-                      style={{}}
-                      activeOpacity={0.8}
-                      underlayColor={"transparent"}
-                      onPress={async () => {
-                        const locale = await AsyncStorage.getItem("lang");
-                        handleSite(`https://letiapp.in.rs/terms/${locale}`);
-                      }}
-                    >
-                      <Text style={{ color: colors.primary }}>
-                        {t("terms_and_conditions")}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                  <Text
-                    style={[
-                      styles.errors,
-                      {
-                        color: colors.notification,
-                      },
-                    ]}
-                  >
-                    {messageTerms}
-                  </Text>
-                  <View></View>
-                  <View>
-                    <View
-                      style={[
-                        styles.solveWrapper,
-                        { backgroundColor: colors.infoBackground },
-                      ]}
-                    >
-                      <Text style={{ color: colors.text }}>
-                        {t("solve")} {number1} + {number2} ={" "}
-                      </Text>
-                      <TextInput
-                        style={{ width: "70%" }}
-                        value={userAnswer}
-                        onChangeText={setUserAnswer}
-                        keyboardType="numeric"
-                      />
-                    </View>
-                    <View
-                      style={[styles.checkTabs, { borderColor: colors.border }]}
-                    >
-                      <TouchableOpacity
-                        style={{}}
-                        activeOpacity={0.8}
-                        underlayColor={"transparent"}
-                        onPress={checkAnswer}
-                      >
-                        <Text
-                          style={{
-                            color: colors.text,
-                            fontSize: moderateScale(14, 0.2),
-                          }}
-                        >
-                          {t("check")}
-                        </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={{}}
-                        activeOpacity={0.8}
-                        underlayColor={"transparent"}
-                        onPress={generateCaptcha}
-                      >
-                        <Text
-                          style={{
-                            color: colors.text,
-                            fontSize: moderateScale(14, 0.2),
-                          }}
-                        >
-                          {t("generate_new")}
-                        </Text>
-                      </TouchableOpacity>
-                      <Text
-                        style={{
-                          color:
-                            captchaResult === t("correct")
-                              ? "#00D100"
-                              : colors.notification,
-                          fontSize: moderateScale(14, 0.2),
-                        }}
-                      >
-                        {captchaResult}
-                      </Text>
-                    </View>
-                  </View>
                   <View style={styles.buttonWrapper}>
                     <CustomButton
-                      text={t("sign_up_in")}
+                      text={t("sign_up")}
                       onPress={() => {
-                        if (!isChecked) {
-                          setMessageTerms(t("must_accept_terms"));
-                        } else {
-                          setMessageTerms("");
-                          handleSubmit();
-                        }
+                        handleSubmit();
                       }}
-                      disabled={captchaResult !== t("correct")}
                     />
                   </View>
-                  {/* <Text style={[styles.or, { color: colors.darkBorder }]}>
-                    {t('or')}
-                  </Text> */}
-                  {/* <View style={[styles.web]}>
-                    <TouchableOpacity
-                      style={[styles.page]}
-                      activeOpacity={0.8}
-                      underlayColor={'transparent'}
-                      onPress={() => handleSite('https://www.google.com')}
-                    >
-                      <Image
-                        style={[styles.img]}
-                        source={require('../../../assets/Icons/google_logo.png')}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[styles.page]}
-                      activeOpacity={0.8}
-                      underlayColor={'transparent'}
-                      onPress={() => handleSite('https://www.facebook.com')}
-                    >
-                      <Image
-                        style={[styles.img]}
-                        source={require('../../../assets/Icons/facebook_logo.png')}
-                      />
-                    </TouchableOpacity>
-                  </View> */}
                 </SafeAreaView>
               );
             }}
