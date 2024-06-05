@@ -14,7 +14,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "userInterfaceStyle": "light",
     "ios": {
       "config": {
@@ -45,6 +47,11 @@
       "permissions": [],
       "versionCode": 1
     },
-    "description": "Zdrava Ishrana App"
+    "description": "Zdrava Ishrana App",
+    "extra": {
+      "eas": {
+        "projectId": "782eaffa-3782-44b8-a509-cd43237e7c3e"
+      }
+    }
   }
 }
