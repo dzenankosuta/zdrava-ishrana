@@ -32,7 +32,8 @@ const AuthStyles = StyleSheet.create({
     resizeMode: "cover",
     width: "100%",
     height: 300,
-    borderRadius: moderateScale(30, 0.2),
+    borderBottomLeftRadius: moderateScale(30, 0.2),
+    borderBottomRightRadius: moderateScale(30, 0.2),
   },
   logoText: {
     fontSize: moderateScale(35, 0.2),
