@@ -27,7 +27,6 @@ const Register = ({ lang }) => {
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
   const incorrectStyles =
     message !== "" && message !== t("successful_registration")
       ? colors.notification
@@ -39,18 +38,12 @@ const Register = ({ lang }) => {
       onSuccess: (res) => {
         const data = { ...res };
         setMessage(t("successful_registration"));
-        // setMessage(data.data.status);
-        // console.log(data.data.status);
-        // console.log(data.data);
       },
       onError: (error) => {
-        // const data = { ...error };
         if (error.response.status === 500) {
           setMessage(t("server_error"));
         }
-        setMessage(error.response.data.message);
-        // console.log(data.response.data.message);
-        // console.log(error.response);
+        setMessage(error.message);
       },
     }
   );
@@ -60,10 +53,6 @@ const Register = ({ lang }) => {
   };
   const toggleShowConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
-  };
-
-  const handleCheckBox = () => {
-    setIsChecked(!isChecked);
   };
 
   if (message === t("successful_registration")) {
@@ -93,11 +82,14 @@ const Register = ({ lang }) => {
               email: "",
               password: "",
               confirm_password: "",
-              theme: "lite",
-              language: lang,
             }}
             onSubmit={(values) => {
-              doSignup(values);
+              doSignup({
+                firstName: values.first_name,
+                lastName: values.last_name,
+                email: values.email,
+                password: values.password,
+              });
             }}
             validationSchema={Yup.object().shape({
               email: Yup.string()
@@ -151,7 +143,6 @@ const Register = ({ lang }) => {
                     ]}
                     onChangeText={(value) => setFieldValue("first_name", value)}
                     value={values.first_name}
-                    // placeholder={`${t('Fill in your name')}`}
                     placeholder={t("enter_first_name")}
                     placeholderTextColor={colors.placeholder}
                     autoCapitalize="words"
