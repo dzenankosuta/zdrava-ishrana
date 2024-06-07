@@ -14,7 +14,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "userInterfaceStyle": "light",
     "ios": {
       "config": {
@@ -50,6 +52,9 @@
       "eas": {
         "projectId": "782eaffa-3782-44b8-a509-cd43237e7c3e"
       }
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
