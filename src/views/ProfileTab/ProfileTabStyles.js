@@ -27,6 +27,11 @@ const StoriesTabStyles = StyleSheet.create({
     fontSize: moderateScale(32, 0.2),
     fontFamily: "PopinsRegular",
   },
+  errorDelete: {
+    fontFamily: "PopinsRegular",
+    fontSize: moderateScale(14, 0.2),
+    textAlign: "center",
+  },
   profileWrapper: {
     justifyContent: "center",
     paddingHorizontal: moderateScale(35, 0.2),
