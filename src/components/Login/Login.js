@@ -31,17 +31,13 @@ const Login = ({ lang, setAuth }) => {
 
   const { mutate: doAuth, isLoading } = useMutation((values) => login(values), {
     onSuccess: (res) => {
-      // console.log(res.data);
       setMessage("");
     },
     onError: (error) => {
-      // console.log(error);
       if (error.response.status === 500) {
         setMessage(t("server_error"));
       }
-      // setMessage(t('incorrect_credentials'));
-      // console.log(error.response.data.message);
-      setMessage(error.response.data.message);
+      setMessage(t("wrong_email_or_password"));
     },
   });
 
