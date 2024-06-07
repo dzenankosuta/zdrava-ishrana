@@ -21,11 +21,12 @@ export const login = async (data) =>
         throw Object.assign(new Error(), { code: 442, message });
       }
       const { access_token: token } = user.data;
-      const { id } = user.data.user;
-      const { user: userData } = user.data;
-      store.dispatch(authSlice.actions.auth({ token, id, userData }));
+      const { id, firstName, lastName, email } = user.data.user;
+      store.dispatch(
+        authSlice.actions.auth({ token, id, firstName, lastName, email })
+      );
       setToken(token);
-      setUserData(JSON.stringify(userData));
+      setUserData(JSON.stringify({ id, firstName, lastName, email }));
       resolve(user);
     } catch (error) {
       reject(error);
