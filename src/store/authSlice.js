@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  token: "",
+  token: null,
   id: "", // user id
-  userData: {}, // user data
+  firstName: "",
+  lastName: "",
+  email: "",
 };
 
 export const authSlice = createSlice({
@@ -21,8 +23,16 @@ export const authSlice = createSlice({
       state.id = action.payload;
       return state;
     },
-    setUserData: (state, action) => {
-      state.userData = action.payload;
+    setEmail: (state, action) => {
+      state.email = action.payload;
+      return state;
+    },
+    setFirstName: (state, action) => {
+      state.firstName = action.payload;
+      return state;
+    },
+    setLastName: (state, action) => {
+      state.lastName = action.payload;
       return state;
     },
     setToken: (state, action) => {
