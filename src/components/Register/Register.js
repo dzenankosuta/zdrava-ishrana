@@ -233,6 +233,7 @@ const Register = ({ lang }) => {
                       secureTextEntry={!showPassword}
                       password={true}
                       onBlur={handleBlur("password")}
+                      autoCapitalize="none"
                     />
                     <TouchableOpacity
                       onPress={toggleShowPassword}
@@ -286,6 +287,7 @@ const Register = ({ lang }) => {
                       secureTextEntry={!showConfirmPassword}
                       password={true}
                       onBlur={handleBlur("confirm_password")}
+                      autoCapitalize="none"
                     />
                     <TouchableOpacity
                       onPress={toggleShowConfirmPassword}

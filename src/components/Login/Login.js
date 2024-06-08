@@ -131,6 +131,7 @@ const Login = ({ lang, setAuth }) => {
                       secureTextEntry={!showPassword}
                       password={true}
                       onBlur={handleBlur("password")}
+                      autoCapitalize="none"
                     />
                     <TouchableOpacity
                       onPress={toggleShowPassword}
