@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import React, { useCallback, useEffect, useState } from "react";
-import { View, SafeAreaView, ActivityIndicator } from "react-native";
+import { View, SafeAreaView, ActivityIndicator, LogBox } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { store } from "./store";
@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authSlice } from "./src/store/authSlice";
 
 const queryClient = new QueryClient();
+LogBox.ignoreAllLogs();
 
 const primaryTheme = {
   dark: false,
@@ -82,7 +83,7 @@ const NavigationComponent = () => {
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
+    if (appIsReady && areFontsLoaded) {
       // This tells the splash screen to hide immediately! If we call this after
       // `setAppIsReady`, then we may see a blank screen while the app is
       // loading its initial state and rendering its first pixels. So instead,
@@ -95,7 +96,7 @@ const NavigationComponent = () => {
     }
   }, [appIsReady]);
 
-  if (!appIsReady) {
+  if (!appIsReady || !areFontsLoaded) {
     return (
       <View
         style={{
