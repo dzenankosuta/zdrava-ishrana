@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -28,6 +28,8 @@ const Login = ({ lang, setAuth }) => {
   const [showPassword, setShowPassword] = useState(false);
   // const [forgotPassword, setForgotPassword] = useState(false);
   const incorrectStyles = message !== "" ? colors.notification : colors.text;
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   const { mutate: doAuth, isLoading } = useMutation((values) => login(values), {
     onSuccess: (res) => {
@@ -101,6 +103,8 @@ const Login = ({ lang, setAuth }) => {
                     keyboardType="email-address"
                     autoCapitalize="none"
                     onBlur={handleBlur("email")}
+                    ref={emailRef}
+                    onSubmitEditing={() => passwordRef.current.focus()}
                   />
                   <Text
                     style={[
@@ -132,6 +136,8 @@ const Login = ({ lang, setAuth }) => {
                       password={true}
                       onBlur={handleBlur("password")}
                       autoCapitalize="none"
+                      ref={passwordRef}
+                      onSubmitEditing={handleSubmit}
                     />
                     <TouchableOpacity
                       onPress={toggleShowPassword}

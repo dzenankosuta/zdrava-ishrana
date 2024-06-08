@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -31,6 +31,11 @@ const Register = ({ lang }) => {
     message !== "" && message !== t("successful_registration")
       ? colors.notification
       : colors.text;
+  const firstNameRef = useRef();
+  const lastNameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const confirmPasswordRef = useRef();
 
   const { mutate: doSignup, isLoading } = useMutation(
     (values) => signup(values),
@@ -147,6 +152,8 @@ const Register = ({ lang }) => {
                     placeholderTextColor={colors.placeholder}
                     autoCapitalize="words"
                     onBlur={handleBlur("first_name")}
+                    ref={firstNameRef}
+                    onSubmitEditing={() => lastNameRef.current.focus()}
                   />
                   <Text
                     style={[
@@ -176,6 +183,8 @@ const Register = ({ lang }) => {
                     placeholderTextColor={colors.placeholder}
                     autoCapitalize="words"
                     onBlur={handleBlur("last_name")}
+                    ref={lastNameRef}
+                    onSubmitEditing={() => emailRef.current.focus()}
                   />
                   <Text
                     style={[
@@ -203,6 +212,8 @@ const Register = ({ lang }) => {
                     keyboardType="email-address"
                     autoCapitalize="none"
                     onBlur={handleBlur("email")}
+                    ref={emailRef}
+                    onSubmitEditing={() => passwordRef.current.focus()}
                   />
                   <Text
                     style={[
@@ -234,6 +245,8 @@ const Register = ({ lang }) => {
                       password={true}
                       onBlur={handleBlur("password")}
                       autoCapitalize="none"
+                      ref={passwordRef}
+                      onSubmitEditing={() => confirmPasswordRef.current.focus()}
                     />
                     <TouchableOpacity
                       onPress={toggleShowPassword}
@@ -288,6 +301,7 @@ const Register = ({ lang }) => {
                       password={true}
                       onBlur={handleBlur("confirm_password")}
                       autoCapitalize="none"
+                      ref={confirmPasswordRef}
                     />
                     <TouchableOpacity
                       onPress={toggleShowConfirmPassword}
