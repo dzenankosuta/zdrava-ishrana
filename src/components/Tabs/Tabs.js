@@ -20,7 +20,7 @@ const Tabs = () => {
   const { t } = useTranslation();
   return (
     <Tab.Navigator
-      tabBarOptions={{
+      screenOptions={{
         keyboardHidesTabBar: true,
         activeTintColor: colors.primary,
         inactiveTintColor: colors.darkBorder,

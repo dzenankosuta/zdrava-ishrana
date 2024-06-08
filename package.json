@@ -52,7 +52,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.0",
+    "@babel/core": "^7.24.7",
     "babel-preset-expo": "~11.0.0"
   },
   "private": true
