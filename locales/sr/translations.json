@@ -57,5 +57,6 @@
   "enter_confirm_password": "Unesite ponovljenu lozinku",
   "successful_registration": "Uspesno ste se registrovali. Sada se mozete prijaviti.",
   "registering": "Registracija...",
-  "wrong_email_or_password": "Pogresan email ili lozinka"
+  "wrong_email_or_password": "Pogresan email ili lozinka",
+  "search_products": "Pretraži proizvode"
 }

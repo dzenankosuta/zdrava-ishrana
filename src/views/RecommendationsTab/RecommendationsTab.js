@@ -341,6 +341,7 @@ const RecommendationsTab = ({ route }) => {
                 handleSearch(text);
               }}
               value={search}
+              placeholder={t("search_products")}
             />
           </View>
           <View style={[styles.filterContainer]}>
