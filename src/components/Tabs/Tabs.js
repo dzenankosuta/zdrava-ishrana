@@ -33,7 +33,7 @@ const Tabs = () => {
       }}
     >
       <Tab.Screen
-        name="home"
+        name="Home Tab"
         component={HomeNavigation}
         options={{
           tabBarIcon: ({ color, size, focused }) => (
@@ -55,10 +55,11 @@ const Tabs = () => {
             ),
           tabStyle: styles.tabStyles,
           labelStyle: styles.labelStyles,
+          headerShown: false,
         }}
       />
       <Tab.Screen
-        name="recommendations"
+        name="Home Recommendations"
         component={RecommendationsNavigation}
         options={{
           tabBarIcon: ({ color }) => (
@@ -82,10 +83,11 @@ const Tabs = () => {
             ),
           tabStyle: styles.tabStyles,
           labelStyle: styles.labelStyles,
+          headerShown: false,
         }}
       />
       <Tab.Screen
-        name="profile"
+        name="Home Profile"
         component={ProfileNavigation}
         options={{
           tabBarIcon: ({ color }) => (
@@ -107,6 +109,7 @@ const Tabs = () => {
             ),
           tabStyle: styles.tabStyles,
           labelStyle: styles.labelStyles,
+          headerShown: false,
         }}
       />
     </Tab.Navigator>
