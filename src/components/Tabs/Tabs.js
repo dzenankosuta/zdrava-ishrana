@@ -21,7 +21,7 @@ const Tabs = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        keyboardHidesTabBar: true,
+        tabBarHideOnKeyboard: true,
         activeTintColor: colors.primary,
         inactiveTintColor: colors.darkBorder,
         activeBackgroundColor: colors.background2,
