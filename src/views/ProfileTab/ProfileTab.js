@@ -24,11 +24,6 @@ const ProfileTab = () => {
   const { bottom: bottomInset } = useSafeAreaInsets();
   const [message, setMessage] = useState("");
 
-  console.log("token", token);
-  console.log("IDD", id);
-  console.log("firstName", firstName);
-  console.log("lastName", lastName);
-  console.log("email", email);
   const logout = async () => {
     AsyncStorage.multiRemove(["auth_token", "userData"]).then(() => {
       store.dispatch(authSlice.actions.logout());

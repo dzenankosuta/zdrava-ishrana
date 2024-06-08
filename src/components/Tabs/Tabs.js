@@ -26,9 +26,9 @@ const Tabs = () => {
         inactiveTintColor: colors.darkBorder,
         activeBackgroundColor: colors.background2,
         inactiveBackgroundColor: colors.background2,
-        style: { height: moderateScale(60, 0.2) },
-        tabStyle: {
+        tabBarStyle: {
           height: moderateScale(60, 0.2),
+          backgroundColor: colors.background2,
         },
       }}
     >
