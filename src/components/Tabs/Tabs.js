@@ -11,6 +11,7 @@ import HomeTab from "../../views/HomeTab/HomeTab";
 import RecommendationsTab from "../../views/RecommendationsTab/RecommendationsTab";
 import Product from "../../views/Product/Product";
 import ProfileTab from "../../views/ProfileTab/ProfileTab";
+import AddProduct from "../../views/AddProduct/AddProduct";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -240,6 +241,18 @@ const RecommendationsNavigation = () => {
       <Stack.Screen
         name="Product"
         component={Product}
+        options={{
+          headerTitle: t("recommendations"),
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            color: colors.background2,
+            fontFamily: "PopinsRegular",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Add Product"
+        component={AddProduct}
         options={{
           headerTitle: t("recommendations"),
           headerTitleAlign: "center",
