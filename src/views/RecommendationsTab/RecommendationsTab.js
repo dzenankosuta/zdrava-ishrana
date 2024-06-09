@@ -30,6 +30,7 @@ const RecommendationsTab = ({ route }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [favorites, setFavorites] = useState([]);
+  const [myProducts, setMyProducts] = useState([]);
   const [page, setPage] = useState(1);
   // const [visibleProducts, setVisibleProducts] = useState(20);
   const [filterChanged, setFilterChanged] = useState(false);
@@ -74,6 +75,7 @@ const RecommendationsTab = ({ route }) => {
 
   const filters = [
     { label: t("all_products"), key: t("all_products") },
+    { label: t("my_products"), key: t("my_products") },
     { label: t("children"), key: t("children") },
     { label: t("cosmetics"), key: t("cosmetics") },
     { label: t("adults"), key: t("adults") },
@@ -157,6 +159,8 @@ const RecommendationsTab = ({ route }) => {
         setFilteredProducts(
           products.filter((product) => product.type_names.includes(t("food")))
         );
+      } else if (selectedFilter === t("my_products")) {
+        setFilteredProducts(myProducts);
       } else {
         setFilteredProducts(products);
       }
@@ -188,6 +192,15 @@ const RecommendationsTab = ({ route }) => {
     }
   };
 
+  const loadMyProducts = async () => {
+    const storedProducts = await AsyncStorage.getItem("myProducts");
+    if (storedProducts) {
+      setMyProducts(JSON.parse(storedProducts));
+    } else {
+      setMyProducts([]);
+    }
+  };
+
   const addToFavorites = (product) => {
     setFavorites((prevFavorites) => [...prevFavorites, product]);
     saveFavorites([...favorites, product]);
@@ -205,6 +218,8 @@ const RecommendationsTab = ({ route }) => {
 
     if (selectedFilter === t("favorite")) {
       filtered = favorites;
+    } else if (selectedFilter === t("my_products")) {
+      filtered = myProducts;
     } else if (selectedFilter !== t("all_products")) {
       filtered = products.filter((product) =>
         product.type_names.includes(t(selectedFilter))
@@ -223,6 +238,7 @@ const RecommendationsTab = ({ route }) => {
   useEffect(() => {
     if (isFocused) {
       loadFavorites();
+      loadMyProducts();
     }
   }, [isFocused]);
   useEffect(() => {
@@ -312,37 +328,51 @@ const RecommendationsTab = ({ route }) => {
           </ModalSelector>
         </View>
         <View style={[styles.firstContainer]}>
-          <View
-            style={[
-              styles.searchContainer,
-              {
-                borderColor: colors.placeholder,
-                backgroundColor: colors.background2,
-              },
-            ]}
-          >
-            <AntDesign
-              size={25}
-              name="search1"
-              color={colors.primary}
-              style={{ marginRight: moderateScale(10, 0.2) }}
-            />
-            <TextInput
-              style={{
-                width: "85%",
-                color: colors.text,
-                fontFamily: "PopinsRegular",
+          <View style={[styles.searchAddContainer]}>
+            <View
+              style={[
+                styles.searchContainer,
+                {
+                  borderColor: colors.placeholder,
+                  backgroundColor: colors.background2,
+                },
+              ]}
+            >
+              <AntDesign
+                size={25}
+                name="search1"
+                color={colors.primary}
+                style={{ marginRight: moderateScale(10, 0.2) }}
+              />
+              <TextInput
+                style={{
+                  width: "85%",
+                  color: colors.text,
+                  fontFamily: "PopinsRegular",
+                }}
+                // placeholder={t("search")}
+                // placeholderTextColor={colors.placeholder}
+                returnKeyType="search"
+                onChangeText={(text) => {
+                  setSearch(text);
+                  handleSearch(text);
+                }}
+                value={search}
+                placeholder={t("search_products")}
+              />
+            </View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              underlayColor={"transparent"}
+              style={[styles.addBtn, { backgroundColor: colors.primary }]}
+              onPress={() => {
+                navigation.navigate("Add Product", {
+                  screen: "Add Product",
+                });
               }}
-              // placeholder={t("search")}
-              // placeholderTextColor={colors.placeholder}
-              returnKeyType="search"
-              onChangeText={(text) => {
-                setSearch(text);
-                handleSearch(text);
-              }}
-              value={search}
-              placeholder={t("search_products")}
-            />
+            >
+              <AntDesign size={20} name="plus" color={colors.background} />
+            </TouchableOpacity>
           </View>
           <View style={[styles.filterContainer]}>
             <View style={[styles.filterButton]}>
