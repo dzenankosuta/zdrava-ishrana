@@ -1,6 +1,6 @@
 {
   "home": "Početna",
-  "recommendations": "Preporuke",
+  "recommendations": "Proizvodi",
   "profile": "Profil",
   "search": "Pretraži",
   "recommendation": "Preporuka",
@@ -58,5 +58,19 @@
   "successful_registration": "Uspesno ste se registrovali. Sada se mozete prijaviti.",
   "registering": "Registracija...",
   "wrong_email_or_password": "Pogresan email ili lozinka",
-  "search_products": "Pretraži proizvode"
+  "search_products": "Pretraži proizvode",
+  "add_product": "Dodavanje Proizvoda",
+  "product_name": "Naziv proizvoda",
+  "product_description": "Opis proizvoda",
+  "product_ingredients": "Sastojci",
+  "select_image": "Izaberi sliku proizvoda",
+  "add_product_btn": "Dodaj Proizvod",
+  "product_added": "Uspesno dodavanje proizvoda",
+  "product_added_in_my_products": "Proizvod je dodat u moje proizvode",
+  "error": "Greška",
+  "something_went_wrong": "Neka greška nastala",
+  "validation": "Validacija",
+  "all_fields_must_be_filled": "Sva polja moraju biti popunjena i slika mora biti izabrana",
+  "ok": "U redu",
+  "my_products": "Moji proizvodi"
 }
