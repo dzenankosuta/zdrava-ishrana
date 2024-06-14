@@ -269,6 +269,11 @@ const RecommendationsTab = ({ route }) => {
       setFilteredProducts(shuffleArray(products));
     }
   }, []);
+  useEffect(() => {
+    if (selectedFilter === t("my_products") && !userId) {
+      setSelectedFilter(t("all_products"));
+    }
+  }, [selectedFilter, isFocused, userId]);
   return (
     <>
       <View style={[styles.container]}>
