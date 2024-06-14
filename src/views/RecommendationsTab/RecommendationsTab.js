@@ -77,7 +77,7 @@ const RecommendationsTab = ({ route }) => {
 
   const filters = [
     { label: t("all_products"), key: t("all_products") },
-    { label: t("my_products"), key: t("my_products") },
+    ...(userId ? [{ label: t("my_products"), key: t("my_products") }] : []),
     { label: t("children"), key: t("children") },
     { label: t("cosmetics"), key: t("cosmetics") },
     { label: t("adults"), key: t("adults") },
@@ -363,18 +363,20 @@ const RecommendationsTab = ({ route }) => {
                 placeholder={t("search_products")}
               />
             </View>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              underlayColor={"transparent"}
-              style={[styles.addBtn, { backgroundColor: colors.primary }]}
-              onPress={() => {
-                navigation.navigate("Add Product", {
-                  screen: "Add Product",
-                });
-              }}
-            >
-              <AntDesign size={20} name="plus" color={colors.background} />
-            </TouchableOpacity>
+            {userId && (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                underlayColor={"transparent"}
+                style={[styles.addBtn, { backgroundColor: colors.primary }]}
+                onPress={() => {
+                  navigation.navigate("Add Product", {
+                    screen: "Add Product",
+                  });
+                }}
+              >
+                <AntDesign size={20} name="plus" color={colors.background} />
+              </TouchableOpacity>
+            )}
           </View>
           <View style={[styles.filterContainer]}>
             <View style={[styles.filterButton]}>
