@@ -12,7 +12,7 @@ import {
 import IoniconsIcon from "react-native-vector-icons/Ionicons";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useTheme } from "@react-navigation/native";
+import { useNavigation, useTheme } from "@react-navigation/native";
 import { useMutation } from "react-query";
 import { CustomButton } from "../../components/CustomButton/CustomButton";
 import styles from "./LoginStyles";
@@ -24,6 +24,7 @@ import { moderateScale } from "react-native-size-matters";
 const Login = ({ lang, setAuth }) => {
   const { colors } = useTheme();
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   // const [forgotPassword, setForgotPassword] = useState(false);
@@ -34,6 +35,7 @@ const Login = ({ lang, setAuth }) => {
   const { mutate: doAuth, isLoading } = useMutation((values) => login(values), {
     onSuccess: (res) => {
       setMessage("");
+      navigation.navigate("home", { screen: "home" });
     },
     onError: (error) => {
       if (error.response.status === 500) {
