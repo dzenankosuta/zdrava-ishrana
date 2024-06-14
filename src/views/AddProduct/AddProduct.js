@@ -10,7 +10,11 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
 import { useTranslation } from "react-i18next";
-import { useNavigation, useTheme } from "@react-navigation/native";
+import {
+  CommonActions,
+  useNavigation,
+  useTheme,
+} from "@react-navigation/native";
 import styles from "./AddProductStyles";
 import { CustomButton } from "../../components/CustomButton/CustomButton";
 import { useSelector } from "react-redux";
@@ -88,7 +92,27 @@ const AddProduct = () => {
         Alert.alert(t("product_added"), t("product_added_in_my_products"), [
           {
             text: t("ok"),
-            onPress: () => navigation.goBack(),
+            onPress: () => {
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [
+                    {
+                      name: "recommendations",
+                      state: {
+                        index: 1,
+                        routes: [
+                          { name: "recommendations" },
+                          {
+                            name: "recommendations",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                })
+              );
+            },
           },
         ]);
         setName("");
