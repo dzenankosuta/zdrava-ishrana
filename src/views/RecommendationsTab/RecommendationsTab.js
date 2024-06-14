@@ -19,6 +19,7 @@ import { moderateScale } from "react-native-size-matters";
 import ProductCard from "../../components/Card/ProductCard/ProductCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import productsJSON from "../../common/products.json";
+import { useSelector } from "react-redux";
 
 const RecommendationsTab = ({ route }) => {
   const scrollViewRef = useRef(null);
@@ -26,6 +27,7 @@ const RecommendationsTab = ({ route }) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const isFocused = useIsFocused();
+  const { id: userId } = useSelector((state) => state.auth);
   const [products, setProducts] = useState(productsJSON);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [search, setSearch] = useState("");
@@ -193,7 +195,7 @@ const RecommendationsTab = ({ route }) => {
   };
 
   const loadMyProducts = async () => {
-    const storedProducts = await AsyncStorage.getItem("myProducts");
+    const storedProducts = await AsyncStorage.getItem(`${userId}myProducts`);
     if (storedProducts) {
       setMyProducts(JSON.parse(storedProducts));
     } else {

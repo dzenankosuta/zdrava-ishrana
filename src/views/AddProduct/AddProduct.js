@@ -13,10 +13,12 @@ import { useTranslation } from "react-i18next";
 import { useNavigation, useTheme } from "@react-navigation/native";
 import styles from "./AddProductStyles";
 import { CustomButton } from "../../components/CustomButton/CustomButton";
+import { useSelector } from "react-redux";
 
 const AddProduct = () => {
   const { colors } = useTheme();
   const { t } = useTranslation();
+  const { id: userId } = useSelector((state) => state.auth);
   const navigation = useNavigation();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -71,14 +73,16 @@ const AddProduct = () => {
           hashtags: [],
         };
 
-        const storedProducts = await AsyncStorage.getItem("myProducts");
+        const storedProducts = await AsyncStorage.getItem(
+          `${userId}myProducts`
+        );
         const currentProducts = storedProducts
           ? JSON.parse(storedProducts)
           : [];
         currentProducts.push(newProduct);
 
         await AsyncStorage.setItem(
-          "myProducts",
+          `${userId}myProducts`,
           JSON.stringify(currentProducts)
         );
         Alert.alert(t("product_added"), t("product_added_in_my_products"), [
@@ -101,7 +105,7 @@ const AddProduct = () => {
 
   //   useEffect(() => {
   //     const fetchData = async () => {
-  //       const storedProducts = await AsyncStorage.getItem("myProducts");
+  //       const storedProducts = await AsyncStorage.getItem(`${userId}myProducts`);
   //       console.log("storedProducts", storedProducts);
   //     };
   //     fetchData();
