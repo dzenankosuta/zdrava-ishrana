@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Platform, Text, View } from "react-native";
 import { FontAwesome5, Octicons, Entypo } from "react-native-vector-icons";
 import { useTheme } from "@react-navigation/native";
@@ -12,6 +12,8 @@ import RecommendationsTab from "../../views/RecommendationsTab/RecommendationsTa
 import Product from "../../views/Product/Product";
 import ProfileTab from "../../views/ProfileTab/ProfileTab";
 import AddProduct from "../../views/AddProduct/AddProduct";
+import Auth from "../../views/Auth/Auth";
+import { useSelector } from "react-redux";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -268,35 +270,57 @@ const RecommendationsNavigation = () => {
 const ProfileNavigation = () => {
   const { colors } = useTheme();
   const { t } = useTranslation();
+  const { id } = useSelector((state) => state.auth);
+
+  const screenOptions = {
+    headerTitle: false,
+    headerStyle: {
+      backgroundColor: colors.primary,
+      height:
+        Platform.OS === "ios" ? moderateScale(50, 0.2) : moderateScale(90, 0.2),
+    },
+    headerBackTitleVisible: false,
+    // headerRight: RightHeaderComponent,
+    headerTintColor: colors.background2,
+  };
+
+  const initialRouteName = id ? "profile" : "auth";
+
+  const screen = id ? (
+    <Stack.Screen
+      name="profile"
+      component={ProfileTab}
+      options={{
+        headerTitle: t("profile"),
+        headerTitleAlign: "center",
+        headerTitleStyle: {
+          color: colors.background2,
+          fontFamily: "PopinsRegular",
+        },
+      }}
+    />
+  ) : (
+    <Stack.Screen
+      name="auth"
+      component={Auth}
+      options={{
+        headerTitle: t("profile"),
+        headerTitleAlign: "center",
+        headerTitleStyle: {
+          color: colors.background2,
+          fontFamily: "PopinsRegular",
+        },
+      }}
+    />
+  );
+
+  useEffect(() => {}, [id]);
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerTitle: false,
-        headerStyle: {
-          backgroundColor: colors.primary,
-          height:
-            Platform.OS === "ios"
-              ? moderateScale(50, 0.2)
-              : moderateScale(90, 0.2),
-        },
-        headerBackTitleVisible: false,
-        // headerRight: RightHeaderComponent,
-        headerTintColor: colors.background2,
-      }}
-      initialRouteName="profile"
+      screenOptions={screenOptions}
+      initialRouteName={initialRouteName}
     >
-      <Stack.Screen
-        name="profile"
-        component={ProfileTab}
-        options={{
-          headerTitle: t("profile"),
-          headerTitleAlign: "center",
-          headerTitleStyle: {
-            color: colors.background2,
-            fontFamily: "PopinsRegular",
-          },
-        }}
-      />
+      {screen}
     </Stack.Navigator>
   );
 };
