@@ -12,7 +12,6 @@ import i18n from "./i18n";
 import Tabs from "./src/components/Tabs/Tabs";
 import useAppFonts from "./src/hooks/useAppFonts";
 import "react-native-get-random-values";
-import Auth from "./src/views/Auth/Auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authSlice } from "./src/store/authSlice";
 
@@ -45,7 +44,6 @@ const NavigationComponent = () => {
   const dispatch = useDispatch();
   const { selectedTheme } = useSelector((state) => state.theme);
   const [appIsReady, setAppIsReady] = useState(false);
-  const { id } = useSelector((state) => state.auth);
 
   useEffect(() => {
     (async () => {
@@ -112,7 +110,7 @@ const NavigationComponent = () => {
 
   return (
     <NavigationContainer theme={selectedTheme}>
-      {id ? <Tabs /> : <Auth />}
+      <Tabs />
     </NavigationContainer>
   );
 };
